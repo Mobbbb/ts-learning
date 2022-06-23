@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<meta name="description" content="Mobbbb,动漫新番,动漫推荐,新番推荐,电影评价,动漫评价">
+		<meta name="keywords" content="动漫新番,动漫评价,电影评价,动漫推荐,新番推荐,动漫,新番,动画,日本动漫,番剧,番组,二次元,ANIME">
+        
+		<meta name="apple-mobile-web-app-title" content="<%= htmlWebpackPlugin.options.shortName %>">
+		<meta name="theme-color" content="#EDE5E0">
+		
+		<link rel="icon" href="<%= BASE_URL %>favicon.jpg">
+		<!-- <link rel="manifest" href="<%= BASE_URL %>manifest.json"> -->
+		<link rel="apple-touch-icon" href="<%= VUE_APP_HOST %>/resource/home-assets/images/manifest-192x192.png">
+		<link rel="apple-touch-startup-image" href="<%= VUE_APP_HOST %>/resource/home-assets/images/setup.jpg">
+		<title><%= htmlWebpackPlugin.options.title %></title>
+  	</head>
+  	<body>
+		<noscript>
+			<strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+		</noscript>
+		<div id="app"></div>
+    <!-- built files will be auto injected -->
+  	</body>
+</html>
+<% for (var i in htmlWebpackPlugin.options.resourceConfig && htmlWebpackPlugin.options.resourceConfig.css) { %>
+	<link href="<%= htmlWebpackPlugin.options.resourceConfig.css[i] %>" rel="stylesheet">
+<% } %>
+<% for (var i in htmlWebpackPlugin.options.resourceConfig && htmlWebpackPlugin.options.resourceConfig.js) { %>	
+	<script src="<%= htmlWebpackPlugin.options.resourceConfig.js[i] %>"></script>
+<% } %>
