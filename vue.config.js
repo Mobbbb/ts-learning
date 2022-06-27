@@ -1,7 +1,7 @@
 'use strict'
 
-const name = 'AMS - Animation.Moive.Summary'
-const shortName = 'AMS'
+const name = 'TS - Learning'
+const shortName = 'TS'
 const outputDir = 'dist'
 const proxyConfig = {
     '/resource': {
@@ -13,10 +13,8 @@ const proxyConfig = {
 
 const path = require('path')
 const resourceConfig = require('./src/config/resource.js')
-const PrerenderSPAPlugin = require('prerender-spa-plugin')
 const WebpackBundleAnalyzer = require('webpack-bundle-analyzer')
 
-const Renderer = PrerenderSPAPlugin.PuppeteerRenderer
 const BundleAnalyzer = WebpackBundleAnalyzer.BundleAnalyzerPlugin
 
 function resolve(dir) {
@@ -76,4 +74,5 @@ module.exports = {
             })
         }
     },
+    runtimeCompiler: process.env.NODE_ENV === 'development' ? true : false,
 }
