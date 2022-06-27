@@ -1,14 +1,13 @@
 <template>
     <div class="home-wrap mobile-wrap">
-        <div @click="voidFn">一、TypeScript 基础类型</div>
+        <div class="title" @click="voidFn">一、TypeScript 基础类型</div>
         <div>{{value}}</div>
         <div>{{value5}}</div>
+        <div>{{year}}</div>
     </div>
 </template>
 
 <script lang="ts">
-import { ref } from 'vue'
-
 export default {
     setup() {
         // 1、Number 类型
@@ -68,10 +67,11 @@ export default {
         let a: any = []
         controlFlowAnalysisWithNever(a)
 
-        // 根据初始值推断类型
-        const value8 = ref(0)
-        // 声明复杂类型
-        const year = ref<string | number>('2020')
+        // 11、type 关键字
+        // 给已有类型取别名 和 定义一个新的类型 ( 搭配联合类型使用 )
+        type str = string // 取别名
+        type newType = string | number // 联合类型
+
 
         return {
             value,
@@ -92,15 +92,7 @@ export default {
     box-sizing: border-box;
     overflow-y: auto;
 }
-.home-content {
-    padding: 20px 0 0 20px;
-    position: relative;
-}
-.home-content::after {
-    content: '';
-    display: block;
-    width: 0;
-    height: 0;
-    clear: both;
+.title {
+    cursor: pointer;
 }
 </style>

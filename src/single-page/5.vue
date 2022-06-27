@@ -1,85 +1,71 @@
 <template>
     <div class="home-wrap mobile-wrap">
-        <div @click="voidFn">一、TypeScript 基础类型</div>
+        <div class="title" @click="openModal">三、与组合式API一起使用</div>
         <div>{{value}}</div>
-        <div>{{value5}}</div>
+        <div>{{year}}</div>
+        <my-modal ref="modal"></my-modal>
+        <input type="text" @change="handleChange">
     </div>
 </template>
 
 <script lang="ts">
-import { ref } from 'vue'
+import { defineComponent, reactive, ref, computed } from 'vue'
+
+const MyModal = defineComponent({
+    template: '<div v-show="isContentShown">show</div>',
+    setup() {
+        const isContentShown = ref(false)
+        const changeStatus = () => (isContentShown.value = !isContentShown.value)
+        return {
+            isContentShown,
+            changeStatus,
+        }
+    },
+})
+
+interface Book {
+    title: string,
+    year?: number,
+}
 
 export default {
+    components: {
+        MyModal,
+    },
     setup() {
-        // 1、Number 类型
-        const value: number = 0
-        // 2、Boolean 类型
-        const value1: boolean = true
-        // 3、Stirng 类型
-        const value2: string = ''
-        // 4、Array 类型
-        const value3: number[] = [1, 2, 3]
-        const value4: Array<number> = [4, 5, 6]
-
-        // 5、枚举, 默认0开始递增，可以是字符串或异构枚举
-        enum Direction {
-            A,
-            B,
-            C,
-            D = 'D',
-        }
-        const value5: Direction = Direction.A
-
-        // 6、any类型
-        let value6: any = 666
-        value6 = 'string'
-        // value6.foo.bar // running error
-
-        // 7、Unknown 类型
-        let value7: unknown
-        value7 = true
-        value7 = 42
-        value6 = value7
-        // const valueNumber: number = value7 // compile error
-        // value7.foo.bar // compile error
-
-        // 8、Tuple 类型
-        const tupleType: [string, number] = ['', 0]
-        // const tupleType1: [string, number] = [0, ''] // compile error
-        // const tupleType2: [string, number] = [''] // compile error
-
-        // 9、Void 类型
-        function voidFn(): void {
-            console.log('click')
-        }
-
-        // 10、Never 类型
-        type Foo = string | number;
-        function controlFlowAnalysisWithNever(foo: Foo) {
-            if (typeof foo === "string") {
-                // 这里 foo 被收窄为 string 类型
-            } else if (typeof foo === "number") {
-                // 这里 foo 被收窄为 number 类型
-            } else {
-                // check 在这里是 never
-                const check: never = foo
-            }
-        }
-        let a: any = []
-        controlFlowAnalysisWithNever(a)
-
-        let someValue: any = "this is a string"
-        let strLength: number = (<string>someValue).length
-
-        // 根据初始值推断类型
-        const value8 = ref(0)
+        // ref 类型声明
+        const value = ref(0) // 根据初始值推断类型
         // 声明复杂类型
-        const year = ref<string | number>('2020')
+        let year = ref<string | number>('2020')
+        year.value = 2022 // ok
+
+        // reactive 类型声明
+        const book = reactive<Book>({ title: 'Learning', year: 2022 })
+        const book1: Book = reactive({ title: 'Learning', year: 2022 })
+        const book2 = reactive({ title: 'Learning', year: 2022 }) as Book
+
+        // computed 类型声明
+        const doubleCount = computed(() => value.value * 2) // 根据返回值自动推断类型
+        // const result = doubleCount.value.split('') // Error
+
+        // 为模板引用添加类型
+        const modal = ref<InstanceType<typeof MyModal>>()
+        const openModal = () => {
+            // modal.value.changeStatus() // Error
+            modal.value?.changeStatus()
+        }
+
+        // 为事件处理添加类型
+        const handleChange = (e: Event) => {
+            console.log((<HTMLInputElement>e.target).value)
+        }
 
         return {
+            modal,
             value,
-            value5,
-            voidFn,
+            year,
+            openModal,
+            handleChange,
         }
     },
 } 
@@ -95,15 +81,7 @@ export default {
     box-sizing: border-box;
     overflow-y: auto;
 }
-.home-content {
-    padding: 20px 0 0 20px;
-    position: relative;
-}
-.home-content::after {
-    content: '';
-    display: block;
-    width: 0;
-    height: 0;
-    clear: both;
+.title {
+    cursor: pointer;
 }
 </style>
