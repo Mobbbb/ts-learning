@@ -1,71 +1,77 @@
 <template>
     <div class="home-wrap mobile-wrap">
-        <div class="title" @click="openModal">三、与组合式API一起使用</div>
-        <div>{{value}}</div>
-        <div>{{year}}</div>
-        <my-modal ref="modal"></my-modal>
-        <input type="text" @change="handleChange">
+        <div class="title">四、交叉类型</div>
+        <div>{{point}}</div>
+        <div>{{abc}}</div>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, computed } from 'vue'
-
-const MyModal = defineComponent({
-    template: '<div v-show="isContentShown">show</div>',
-    setup() {
-        const isContentShown = ref(false)
-        const changeStatus = () => (isContentShown.value = !isContentShown.value)
-        return {
-            isContentShown,
-            changeStatus,
-        }
-    },
-})
-
-interface Book {
-    title: string,
-    year?: number,
-}
-
 export default {
-    components: {
-        MyModal,
-    },
     setup() {
-        // ref 类型声明
-        const value = ref(0) // 根据初始值推断类型
-        // 声明复杂类型
-        let year = ref<string | number>('2020')
-        year.value = 2022 // ok
-
-        // reactive 类型声明
-        const book = reactive<Book>({ title: 'Learning', year: 2022 })
-        const book1: Book = reactive({ title: 'Learning', year: 2022 })
-        const book2 = reactive({ title: 'Learning', year: 2022 }) as Book
-
-        // computed 类型声明
-        const doubleCount = computed(() => value.value * 2) // 根据返回值自动推断类型
-        // const result = doubleCount.value.split('') // Error
-
-        // 为模板引用添加类型
-        const modal = ref<InstanceType<typeof MyModal>>()
-        const openModal = () => {
-            // modal.value.changeStatus() // Error
-            modal.value?.changeStatus()
+        // 1、& 属性的合并
+        type PartialPointX = { x: number }
+        type Point = PartialPointX & { y: number }
+        const point: Point = {
+            x: 0,
+            y: 0,
         }
 
-        // 为事件处理添加类型
-        const handleChange = (e: Event) => {
-            console.log((<HTMLInputElement>e.target).value)
+        // 2、同名基础类型属性的合并
+        interface X {
+            a: string,
+            b: number,
         }
+        interface Y {
+            a: number,
+            c: number,
+        }
+        type XY = X & Y
+        // const xy: XY = { a: '?', b: 1, c: 2 } // a的类型为never
+
+        // 3、同名非基础类型属性的合并
+        interface D {
+            d: boolean
+        }
+        interface E {
+            e: string
+        }
+        interface F {
+            f: number
+        }
+        interface _F {
+            f: string
+        }
+
+        interface A {
+            x: D
+        }
+        interface B {
+            x: E
+        }
+        interface C {
+            x: F
+        }
+        interface _C {
+            x: _F
+        }
+        const abc: A & B & C = {
+            x: {
+                d: true,
+                e: '1',
+                f: 1,
+            }
+        }
+        /*const _abc: A & C & _C = {
+            x: {
+                d: true,
+                f: '', // f的类型为never
+            }
+        }*/
 
         return {
-            modal,
-            value,
-            year,
-            openModal,
-            handleChange,
+            point,
+            abc,
         }
     },
 } 

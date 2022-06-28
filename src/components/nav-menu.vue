@@ -2,7 +2,7 @@
     <div class="nav-wrap">
         <div class="page-nav-wrap" :style="pageNavWrapStyle">
             <div class="el-menu-nav">
-                <div v-for="item in routes" 
+                <div v-for="item in navMenu" 
                     :class="activeNavIndex === item.path ? 'active-menu' : ''" 
                     :key="item.path" 
                     @click="clickItem(item.name)">
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
+import { mapState } from 'vuex'
 import { routes } from '@/router'
 
 export default {
@@ -35,6 +35,9 @@ export default {
                 width: `${this.mainWidth.width * 100}%`,
                 height: `${this.navHeight}px`,
             }
+        },
+        navMenu() {
+            return this.routes.filter(item => item.name)
         },
     },
     methods: {

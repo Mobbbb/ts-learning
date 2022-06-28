@@ -8,13 +8,13 @@ export const homeRoute = {
 }
 
 export const movieRoute = {
-    path: "/2/",
+    path: "/2",
     name: "2",
     component: () => import('@/single-page/2.vue')
 }
 
 export const summaryRoute = {
-    path: "/3/",
+    path: "/3",
     name: "3",
     component: () => import('@/single-page/3.vue')
 }
@@ -32,6 +32,21 @@ export const routes = [
     movieRoute,
     summaryRoute,
     notFoundRoute,
+    {
+        path: "/4",
+        name: "4",
+        component: () => import('@/single-page/4.vue')
+    },
+    {
+        path: "/5",
+        name: "5",
+        component: () => import('@/single-page/5.vue')
+    },
+    {
+        path: "/6",
+        name: "6",
+        component: () => import('@/single-page/6.vue')
+    },
 ]
 
 const router = createRouter({
