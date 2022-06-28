@@ -3,7 +3,6 @@
         <div class="title" @click="voidFn">一、TypeScript 基础类型</div>
         <div>{{value}}</div>
         <div>{{value5}}</div>
-        <div>{{year}}</div>
     </div>
 </template>
 
@@ -19,6 +18,7 @@ export default {
         // 4、Array 类型
         const value3: number[] = [1, 2, 3]
         const value4: Array<number> = [4, 5, 6]
+        let [x, y, z] = value4 // 数组解构
 
         // 5、枚举, 默认0开始递增，可以是字符串或异构枚举
         enum Direction {
@@ -53,25 +53,20 @@ export default {
         }
 
         // 10、Never 类型
-        type Foo = string | number;
+        type Foo = string | number
         function controlFlowAnalysisWithNever(foo: Foo) {
             if (typeof foo === "string") {
                 // 这里 foo 被收窄为 string 类型
             } else if (typeof foo === "number") {
                 // 这里 foo 被收窄为 number 类型
             } else {
-                // check 在这里是 never
+                // check 用于检查foo是否为never，确保Foo类型的准确性
                 const check: never = foo
+                throw new Error(check)
             }
         }
         let a: any = []
         controlFlowAnalysisWithNever(a)
-
-        // 11、type 关键字
-        // 给已有类型取别名 和 定义一个新的类型 ( 搭配联合类型使用 )
-        type str = string // 取别名
-        type newType = string | number // 联合类型
-
 
         return {
             value,

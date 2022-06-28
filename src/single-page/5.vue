@@ -1,71 +1,57 @@
 <template>
     <div class="home-wrap mobile-wrap">
-        <div class="title" @click="openModal">三、与组合式API一起使用</div>
-        <div>{{value}}</div>
-        <div>{{year}}</div>
-        <my-modal ref="modal"></my-modal>
-        <input type="text" @change="handleChange">
+        <div class="title">五、TypeScript 函数</div>
+        <div>{{array}}</div>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, computed } from 'vue'
-
-const MyModal = defineComponent({
-    template: '<div v-show="isContentShown">show</div>',
-    setup() {
-        const isContentShown = ref(false)
-        const changeStatus = () => (isContentShown.value = !isContentShown.value)
-        return {
-            isContentShown,
-            changeStatus,
-        }
-    },
-})
-
-interface Book {
-    title: string,
-    year?: number,
-}
-
 export default {
-    components: {
-        MyModal,
-    },
     setup() {
-        // ref 类型声明
-        const value = ref(0) // 根据初始值推断类型
-        // 声明复杂类型
-        let year = ref<string | number>('2020')
-        year.value = 2022 // ok
-
-        // reactive 类型声明
-        const book = reactive<Book>({ title: 'Learning', year: 2022 })
-        const book1: Book = reactive({ title: 'Learning', year: 2022 })
-        const book2 = reactive({ title: 'Learning', year: 2022 }) as Book
-
-        // computed 类型声明
-        const doubleCount = computed(() => value.value * 2) // 根据返回值自动推断类型
-        // const result = doubleCount.value.split('') // Error
-
-        // 为模板引用添加类型
-        const modal = ref<InstanceType<typeof MyModal>>()
-        const openModal = () => {
-            // modal.value.changeStatus() // Error
-            modal.value?.changeStatus()
+        // 1、参数类型和返回类型
+        // 函数类型为自动推断
+        const createUserId = function(name: string, id: number): string {
+            return name + id
         }
 
-        // 为事件处理添加类型
-        const handleChange = (e: Event) => {
-            console.log((<HTMLInputElement>e.target).value)
+        // 2、函数类型
+        // 显式声明函数类型
+        const createUserId1: (name: string, id: number) => string = function(name: string, id: number): string {
+            return name + id
         }
+
+        // 3、可选参数
+        // 可选参数需放在普通参数的后面
+        function createUserId2(name: string, id: number, age?: number): string {
+            return name + id
+        }
+
+        // 4、剩余参数
+        function push(array: any[], ...items: any[]) {
+            items.forEach(item => {
+                array.push(item)
+            })
+        }
+        const array: any[] = []
+        push(array, 1, 2, 3, 'string', true)
+
+        // 5、函数重载
+        // 定义多个函数类型
+        function add(a: number, b: number): number
+        function add(a: string, b: string): string
+        // 重载实现
+        function add(a: string | number, b: string | number) {
+            if (typeof a === 'string' || typeof b === 'string') {
+                return a.toString() + b.toString()
+            }
+            return a + b
+        }
+        // add(1, '2') // Error
+        add(1, 1) // ok
+        add('1', '1') // ok
 
         return {
-            modal,
-            value,
-            year,
-            openModal,
-            handleChange,
+            array,
         }
     },
 } 
