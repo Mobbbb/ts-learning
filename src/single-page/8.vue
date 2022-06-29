@@ -1,71 +1,60 @@
 <template>
     <div class="home-wrap mobile-wrap">
-        <div class="title" @click="openModal">三、与组合式API一起使用</div>
-        <div>{{value}}</div>
-        <div>{{year}}</div>
-        <my-modal ref="modal"></my-modal>
-        <input type="text" @change="handleChange">
+        <div class="title">八、TypeScript 类</div>
+        <button @click="getName">changeName</button>
+        <div>{{name}}</div>
+        <div>{{employee}}</div>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, computed } from 'vue'
-
-const MyModal = defineComponent({
-    template: '<div v-show="isContentShown">show</div>',
-    setup() {
-        const isContentShown = ref(false)
-        const changeStatus = () => (isContentShown.value = !isContentShown.value)
-        return {
-            isContentShown,
-            changeStatus,
-        }
-    },
-})
-
-interface Book {
-    title: string,
-    year?: number,
-}
+import { ref } from 'vue'
 
 export default {
-    components: {
-        MyModal,
-    },
     setup() {
-        // ref 类型声明
-        const value = ref(0) // 根据初始值推断类型
-        // 声明复杂类型
-        let year = ref<string | number>('2020')
-        year.value = 2022 // ok
+        let name = ref('mob')
 
-        // reactive 类型声明
-        const book = reactive<Book>({ title: 'Learning', year: 2022 })
-        const book1: Book = reactive({ title: 'Learning', year: 2022 })
-        const book2 = reactive({ title: 'Learning', year: 2022 }) as Book
+        // 1、私有字段
+        class Person {
+            #name: string
 
-        // computed 类型声明
-        const doubleCount = computed(() => value.value * 2) // 根据返回值自动推断类型
-        // const result = doubleCount.value.split('') // Error
+            constructor(name: string) {
+                this.#name = name
+            }
 
-        // 为模板引用添加类型
-        const modal = ref<InstanceType<typeof MyModal>>()
-        const openModal = () => {
-            // modal.value.changeStatus() // Error
-            modal.value?.changeStatus()
+            greet() {
+                return `My name is ${this.#name}!`
+            }
+        }
+        const getName = () => {
+            const mob = new Person(`Mob${Math.random()}`)
+            name.value = mob.greet()
+            console.log('#name' in mob) // 无法被检测
+            // console.log(mob.#name) // Error 私有字段不能在包含的类之外访问
         }
 
-        // 为事件处理添加类型
-        const handleChange = (e: Event) => {
-            console.log((<HTMLInputElement>e.target).value)
+        // 2、访问器
+        class Employee {
+            private _fullName!: string
+
+            get fullName(): string {
+                return this._fullName
+            }
+
+            set fullName(newName: string) {
+                if (newName.indexOf('C') > -1) {
+                    this._fullName = newName
+                }
+            }
         }
+
+        let employee = new Employee()
+        employee.fullName = 'Cat'
 
         return {
-            modal,
-            value,
-            year,
-            openModal,
-            handleChange,
+            name,
+            employee,
+            getName,
         }
     },
 } 

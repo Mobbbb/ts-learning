@@ -65,8 +65,7 @@ export default {
                 throw new Error(check)
             }
         }
-        let a: any = []
-        controlFlowAnalysisWithNever(a)
+        controlFlowAnalysisWithNever('1')
 
         return {
             value,

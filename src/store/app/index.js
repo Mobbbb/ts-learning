@@ -1,4 +1,4 @@
-import router, { homeRoute, movieRoute, summaryRoute } from '@/router'
+import router from '@/router'
 
 const app = {
     namespaced: true,

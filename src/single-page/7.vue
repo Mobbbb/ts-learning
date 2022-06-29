@@ -1,71 +1,66 @@
 <template>
     <div class="home-wrap mobile-wrap">
-        <div class="title" @click="openModal">三、与组合式API一起使用</div>
-        <div>{{value}}</div>
-        <div>{{year}}</div>
-        <my-modal ref="modal"></my-modal>
-        <input type="text" @change="handleChange">
+        <div class="title">七、接口与类型别名的区别</div>
+        <div>{{s1}}</div>
+        <div>{{s2}}</div>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, computed } from 'vue'
-
-const MyModal = defineComponent({
-    template: '<div v-show="isContentShown">show</div>',
-    setup() {
-        const isContentShown = ref(false)
-        const changeStatus = () => (isContentShown.value = !isContentShown.value)
-        return {
-            isContentShown,
-            changeStatus,
-        }
-    },
-})
-
-interface Book {
-    title: string,
-    year?: number,
-}
-
 export default {
-    components: {
-        MyModal,
-    },
     setup() {
-        // ref 类型声明
-        const value = ref(0) // 根据初始值推断类型
-        // 声明复杂类型
-        let year = ref<string | number>('2020')
-        year.value = 2022 // ok
-
-        // reactive 类型声明
-        const book = reactive<Book>({ title: 'Learning', year: 2022 })
-        const book1: Book = reactive({ title: 'Learning', year: 2022 })
-        const book2 = reactive({ title: 'Learning', year: 2022 }) as Book
-
-        // computed 类型声明
-        const doubleCount = computed(() => value.value * 2) // 根据返回值自动推断类型
-        // const result = doubleCount.value.split('') // Error
-
-        // 为模板引用添加类型
-        const modal = ref<InstanceType<typeof MyModal>>()
-        const openModal = () => {
-            // modal.value.changeStatus() // Error
-            modal.value?.changeStatus()
+        // 1、相同点————都可以用来描述对象的形状或函数签名
+        // 接口
+        interface point {
+            x: number,
+            y: number,
+        }
+        interface setPoint {
+            (x: number, y: number): void,
         }
 
-        // 为事件处理添加类型
-        const handleChange = (e: Event) => {
-            console.log((<HTMLInputElement>e.target).value)
+        // 类型别名
+        type point1 = {
+            x: number,
+            y: number,
         }
+        type setPoint1 = (x: number, y: number) => void
+
+        // 2、相同点————属性合并(扩展、继承)
+        // 接口
+        interface partialPointX { x: number }
+        interface point3 extends partialPointX { y: number }
+
+        // 类型别名
+        type partialPointX1 = { x: number }
+        type point4 = partialPointX1 & { y: number }
+
+        // 使用类型别名中扩展接口
+        interface point5 extends partialPointX1 { y: number }
+        // 使用接口扩展类型别名
+        type point6 = partialPointX & { y: number }
+
+        // 3、相同点————类可以实现接口或类型别名
+        class SomePoint implements point {
+            x = 1
+            y = 1
+        }
+        class SomePoint2 implements point1 {
+            x = 2
+            y = 2
+        }
+        const s1 = new SomePoint()
+        const s2 = new SomePoint2()
+
+        // 4、不同点————类型别名可以用于一些其他类型
+        type str = string // 取别名
+        type newType = string | number // 联合类型
+        type eventNames = 'click' | 'scroll' | 'mouseout' // 字面量联合类型
+        type othersType2 = [string, number] // 元组
 
         return {
-            modal,
-            value,
-            year,
-            openModal,
-            handleChange,
+            s1,
+            s2,
         }
     },
 } 
