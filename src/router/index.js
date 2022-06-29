@@ -1,24 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router"
 import store from '@/store'
 
-export const homeRoute = {
-    path: '/',
-    name: '1',
-    component: () => import('@/single-page/1.vue')
-}
-
-export const movieRoute = {
-    path: "/2",
-    name: "2",
-    component: () => import('@/single-page/2.vue')
-}
-
-export const summaryRoute = {
-    path: "/3",
-    name: "3",
-    component: () => import('@/single-page/3.vue')
-}
-
 export const notFoundRoute = {
     path: "/:pathMatch(.*)",
     meta: {
@@ -27,25 +9,20 @@ export const notFoundRoute = {
     component: () => import('@/single-page/not-found-page/index.vue')
 }
 
+const array = Array.from(Array(8).keys(), (item, key) => {
+    return {
+        path: `/${key + 1}`,
+        name: key + 1,
+        component: () => import(`@/single-page/${key + 1}.vue`)
+    }
+})
+
 export const routes = [
-    homeRoute,
-    movieRoute,
-    summaryRoute,
+    ...array,
     notFoundRoute,
     {
-        path: "/4",
-        name: "4",
-        component: () => import('@/single-page/4.vue')
-    },
-    {
-        path: "/5",
-        name: "5",
-        component: () => import('@/single-page/5.vue')
-    },
-    {
-        path: "/6",
-        name: "6",
-        component: () => import('@/single-page/6.vue')
+        path: '/',
+        redirect: '/1',
     },
 ]
 

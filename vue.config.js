@@ -13,9 +13,6 @@ const proxyConfig = {
 
 const path = require('path')
 const resourceConfig = require('./src/config/resource.js')
-const WebpackBundleAnalyzer = require('webpack-bundle-analyzer')
-
-const BundleAnalyzer = WebpackBundleAnalyzer.BundleAnalyzerPlugin
 
 function resolve(dir) {
     return path.join(__dirname, dir)
@@ -61,9 +58,6 @@ module.exports = {
         },
     },
     chainWebpack: (config) => {
-        if (process.env.NODE_ENV === 'analyz') {
-            config.plugin('webpack-bundle-analyzer').use(BundleAnalyzer)
-        }
         if (process.env.NODE_ENV === 'production') {
             // 生产环境下注入在html模板注入cdn
             config.plugin('html').tap(args => {
