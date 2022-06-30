@@ -58,6 +58,11 @@ export default {
         type eventNames = 'click' | 'scroll' | 'mouseout' // 字面量联合类型
         type othersType2 = [string, number] // 元组
 
+        // 5、不同点————接口别名可多次定义，并会被自动合并
+        interface point7 { x: number }
+        interface point7 { y: number }
+        const point: point7 = { x: 1, y: 1 }
+
         return {
             s1,
             s2,
