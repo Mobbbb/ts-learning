@@ -1,71 +1,70 @@
 <template>
     <div class="home-wrap mobile-wrap">
-        <div class="title" @click="openModal">三、与组合式API一起使用</div>
-        <div>{{value}}</div>
-        <div>{{year}}</div>
-        <my-modal ref="modal"></my-modal>
-        <input type="text" @change="handleChange">
+        <div class="title">十、泛型工具类型</div>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, computed } from 'vue'
-
-const MyModal = defineComponent({
-    template: '<div v-show="isContentShown">show</div>',
-    setup() {
-        const isContentShown = ref(false)
-        const changeStatus = () => (isContentShown.value = !isContentShown.value)
-        return {
-            isContentShown,
-            changeStatus,
-        }
-    },
-})
-
-interface Book {
-    title: string,
-    year?: number,
-}
-
 export default {
-    components: {
-        MyModal,
-    },
     setup() {
-        // ref 类型声明
-        const value = ref(0) // 根据初始值推断类型
-        // 声明复杂类型
-        let year = ref<string | number>('2020')
-        year.value = 2022 // ok
+        // 1、Partial<T> 将某个类型里的属性全部变为可选项 ?
+        interface Todo {
+            title: string
+            desc: string
+        }
+        const todo: Partial<Todo> = {
+            title: 'TS',
+        }
+        // Partial<Todo>的类型如下：
+        // {
+        //     title?: string | undefined;+
+        //     description?: string | undefined;
+        // }
 
-        // reactive 类型声明
-        const book = reactive<Book>({ title: 'Learning', year: 2022 })
-        const book1: Book = reactive({ title: 'Learning', year: 2022 })
-        const book2 = reactive({ title: 'Learning', year: 2022 }) as Book
-
-        // computed 类型声明
-        const doubleCount = computed(() => value.value * 2) // 根据返回值自动推断类型
-        // const result = doubleCount.value.split('') // Error
-
-        // 为模板引用添加类型
-        const modal = ref<InstanceType<typeof MyModal>>()
-        const openModal = () => {
-            // modal.value.changeStatus() // Error
-            modal.value?.changeStatus()
+        // 2、Record<K, T>  K: 'string | number | symbol' (对象属性名), T: 对像属性
+        interface Person {
+            name: string
+        }
+        const p1: Record<'x', Person> = {
+            x: {
+                name: 'Bob',
+            }
         }
 
-        // 为事件处理添加类型
-        const handleChange = (e: Event) => {
-            console.log((<HTMLInputElement>e.target).value)
+        // 3、Readonly<T> 传入的类型变为只读状态
+        const p2: Readonly<Person> = {
+            name: 'Mob',
         }
+        // p2.name is readonly
+
+        // 4、Required<T> 把传入的类型变为必填状态
+        interface Person2 {
+            name: string
+            age?: number
+        }
+        const p3: Required<Person2> = {
+            name: 'Jarry',
+            age: 21, // 必填项
+        }
+
+        // 5、Pick<T, K> 选取传入类型的指定属性名
+        interface IPerson {
+            name: string
+            age: number
+        }
+        const p4: Pick<IPerson, 'name'> = {
+            name: '张三',
+        }
+
+        // 6、Exclude<T, U> 类型过滤
+        type T1 = Exclude<'a' | 'b' | 'c', 'a' | 'b'> // type T1 = 'c'
+        type type1 = { type1: number, type2: number, type3: number }
+        type type2 = { type1: number, type2: number }
+        type T3 = Exclude<type2, type1> // type T3 = { type1: number, type2: number }
+        type T4 = Exclude<type1, type2> // type T4 = never
 
         return {
-            modal,
-            value,
-            year,
-            openModal,
-            handleChange,
+            
         }
     },
 } 

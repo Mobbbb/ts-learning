@@ -42,7 +42,7 @@ export default {
         // const valueNumber: number = value7 // compile error
         // value7.foo.bar // compile error
 
-        // 8、Tuple 类型
+        // 8、Tuple 类型 (元组)
         const tupleType: [string, number] = ['', 0]
         // const tupleType1: [string, number] = [0, ''] // compile error
         // const tupleType2: [string, number] = [''] // compile error
