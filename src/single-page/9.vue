@@ -76,6 +76,16 @@ export default {
         ) => infer R ? R : any
         type T6 = ParamsType<typeof add> // number
 
+        // 8、extends 对泛型的约束
+        interface Lengthwise {
+            length: number,
+        }
+        function loggingIdentity<T extends Lengthwise>(arg: T): T {
+            console.log(arg.length)
+            return arg
+        }
+        loggingIdentity({ length: 3 })
+
         return {
 
         }
