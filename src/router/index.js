@@ -9,7 +9,7 @@ export const notFoundRoute = {
     component: () => import('@/single-page/not-found-page/index.vue')
 }
 
-const array = Array.from(Array(9).keys(), (item, key) => {
+const array = Array.from(Array(11).keys(), (item, key) => {
     return {
         path: `/${key + 1}`,
         name: key + 1,

@@ -56,12 +56,20 @@ export default {
             name: '张三',
         }
 
-        // 6、Exclude<T, U> 类型过滤
+        // 6、Omit<T, K> 在 T 中删除对应的 K
+        const p5: Omit<IPerson, 'age'> = {
+            name: '李四',
+        }
+
+        // 7、Exclude<T, U> 类型过滤
         type T1 = Exclude<'a' | 'b' | 'c', 'a' | 'b'> // type T1 = 'c'
         type type1 = { type1: number, type2: number, type3: number }
         type type2 = { type1: number, type2: number }
         type T3 = Exclude<type2, type1> // type T3 = { type1: number, type2: number }
         type T4 = Exclude<type1, type2> // type T4 = never
+
+        // 8、Extract<T, U> 从类型 T 中获取所有可以赋值给类型 U 的类型
+        type T5 = Extract<'a' | 'b' | 'c', 'a' | 'f'> // type T5 = 'a'
 
         return {
             
