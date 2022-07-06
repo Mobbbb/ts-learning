@@ -1,12 +1,15 @@
 <template>
     <div class="home-wrap mobile-wrap">
-        <div>二、TypeScript 断言与守卫</div>
+        <div>{{titleText}}</div>
         <div>{{strLength}}</div>
         <div>{{doubleX}}</div>
     </div>
 </template>
 
 <script lang="ts">
+import { getCurrentInstance } from 'vue'
+import { useRoute } from 'vue-router'
+
 export default {
     setup() {
         // 1、类型断言
@@ -30,7 +33,11 @@ export default {
             return typeof s === 'string'
         }
 
+        const route = useRoute()
+        const routeIndex: number = Number(route.name)
+        const titleText = getCurrentInstance()?.appContext.config.globalProperties.$titleArr[routeIndex - 1]
         return {
+            titleText,
             strLength,
             doubleX,
         }

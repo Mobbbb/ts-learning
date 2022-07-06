@@ -1,16 +1,22 @@
 <template>
     <div class="home-wrap mobile-wrap">
-        <div class="title">十五、</div>
+        <div class="title">{{titleText}}</div>
     </div>
 </template>
 
 <script lang="ts">
+import { getCurrentInstance } from 'vue'
+import { useRoute } from 'vue-router'
+
 export default {
     setup() {
         // 
 
+        const route = useRoute()
+        const routeIndex: number = Number(route.name)
+        const titleText = getCurrentInstance()?.appContext.config.globalProperties.$titleArr[routeIndex - 1]
         return {
-            
+            titleText,
         }
     },
 } 

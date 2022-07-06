@@ -1,10 +1,13 @@
 <template>
     <div class="home-wrap mobile-wrap">
-        <div class="title">九、TypeScript 泛型</div>
+        <div class="title">{{titleText}}</div>
     </div>
 </template>
 
 <script lang="ts">
+import { getCurrentInstance } from 'vue'
+import { useRoute } from 'vue-router'
+
 export default {
     setup() {
         // 1、泛型语法
@@ -86,8 +89,11 @@ export default {
         }
         loggingIdentity({ length: 3 })
 
+        const route = useRoute()
+        const routeIndex: number = Number(route.name)
+        const titleText = getCurrentInstance()?.appContext.config.globalProperties.$titleArr[routeIndex - 1]
         return {
-
+            titleText,
         }
     },
 } 

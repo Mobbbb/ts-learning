@@ -1,12 +1,15 @@
 <template>
     <div class="home-wrap mobile-wrap">
-        <div class="title">七、接口与类型别名的区别</div>
+        <div class="title">{{titleText}}</div>
         <div>{{s1}}</div>
         <div>{{s2}}</div>
     </div>
 </template>
 
 <script lang="ts">
+import { getCurrentInstance } from 'vue'
+import { useRoute } from 'vue-router'
+
 export default {
     setup() {
         // 1、相同点————都可以用来描述对象的形状或函数签名
@@ -63,7 +66,11 @@ export default {
         interface point7 { y: number }
         const point: point7 = { x: 1, y: 1 }
 
+        const route = useRoute()
+        const routeIndex: number = Number(route.name)
+        const titleText = getCurrentInstance()?.appContext.config.globalProperties.$titleArr[routeIndex - 1]
         return {
+            titleText,
             s1,
             s2,
         }

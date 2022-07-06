@@ -1,10 +1,13 @@
 <template>
     <div class="home-wrap mobile-wrap">
-        <div class="title">十、泛型工具类型</div>
+        <div class="title">{{titleText}}</div>
     </div>
 </template>
 
 <script lang="ts">
+import { getCurrentInstance } from 'vue'
+import { useRoute } from 'vue-router'
+
 export default {
     setup() {
         // 1、Partial<T> 将某个类型里的属性全部变为可选项 ?
@@ -71,8 +74,11 @@ export default {
         // 8、Extract<T, U> 从类型 T 中获取所有可以赋值给类型 U 的类型
         type T5 = Extract<'a' | 'b' | 'c', 'a' | 'f'> // type T5 = 'a'
 
+        const route = useRoute()
+        const routeIndex: number = Number(route.name)
+        const titleText = getCurrentInstance()?.appContext.config.globalProperties.$titleArr[routeIndex - 1]
         return {
-            
+            titleText,
         }
     },
 } 

@@ -1,11 +1,14 @@
 <template>
     <div class="home-wrap mobile-wrap">
-        <div class="title">六、TypeScript 接口</div>
+        <div class="title">{{titleText}}</div>
         <div>{{Bob}}</div>
     </div>
 </template>
 
 <script lang="ts">
+import { getCurrentInstance } from 'vue'
+import { useRoute } from 'vue-router'
+
 export default {
     setup() {
         // 1、对象的形状
@@ -54,7 +57,11 @@ export default {
         }
         let setFn: setPoint = () => {}
 
+        const route = useRoute()
+        const routeIndex: number = Number(route.name)
+        const titleText = getCurrentInstance()?.appContext.config.globalProperties.$titleArr[routeIndex - 1]
         return {
+            titleText,
             Bob,
         }
     },
