@@ -1,11 +1,14 @@
 <template>
     <div class="home-wrap mobile-wrap">
-        <div class="title">五、TypeScript 函数</div>
+        <div class="title">{{titleText}}</div>
         <div>{{array}}</div>
     </div>
 </template>
 
 <script lang="ts">
+import { getCurrentInstance } from 'vue'
+import { useRoute } from 'vue-router'
+
 export default {
     setup() {
         // 1、参数类型和返回类型
@@ -50,7 +53,11 @@ export default {
         add(1, 1) // ok
         add('1', '1') // ok
 
+        const route = useRoute()
+        const routeIndex: number = Number(route.name)
+        const titleText = getCurrentInstance()?.appContext.config.globalProperties.$titleArr[routeIndex - 1]
         return {
+            titleText,
             array,
         }
     },

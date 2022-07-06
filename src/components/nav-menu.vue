@@ -6,7 +6,7 @@
                     :class="activeNavIndex === item.path ? 'active-menu' : ''" 
                     :key="item.path" 
                     @click="clickItem(item.name)">
-                    {{item.name}}
+                    {{item.meta.title}}
                 </div>
             </div>
         </div>
@@ -69,6 +69,8 @@ export default {
 .el-menu-nav {
     display: flex;
     height: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 .el-menu-nav > div {
     height: 100%;
@@ -77,6 +79,7 @@ export default {
     cursor: pointer;
     box-sizing: border-box;
     color: #909399;
+    flex-shrink: 0;
 }
 .el-menu-nav > .active-menu {
     border-bottom: 2px solid #409eff;

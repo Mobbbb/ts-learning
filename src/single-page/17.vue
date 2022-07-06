@@ -1,6 +1,6 @@
 <template>
     <div class="home-wrap mobile-wrap">
-        <div class="title" @click="openModal">三、与组合式API一起使用</div>
+        <div class="title" @click="openModal">{{titleText}}</div>
         <div>{{value}}</div>
         <div>{{year}}</div>
         <my-modal ref="modal"></my-modal>
@@ -9,7 +9,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, computed } from 'vue'
+import { defineComponent, reactive, ref, computed, getCurrentInstance } from 'vue'
+import { useRoute } from 'vue-router'
 
 const MyModal = defineComponent({
     template: '<div v-show="isContentShown">show</div>',
@@ -33,6 +34,8 @@ export default {
         MyModal,
     },
     setup() {
+        const route = useRoute()
+
         // ref 类型声明
         const value = ref(0) // 根据初始值推断类型
         // 声明复杂类型
@@ -60,7 +63,10 @@ export default {
             console.log((<HTMLInputElement>e.target).value)
         }
 
+        const routeIndex: number = Number(route.name)
+        const titleText = getCurrentInstance()?.appContext.config.globalProperties.$titleArr[routeIndex - 1]
         return {
+            titleText,
             modal,
             value,
             year,

@@ -1,13 +1,16 @@
 <template>
     <div class="home-wrap mobile-wrap">
-        <div class="title" @click="voidFn">一、TypeScript 基础类型</div>
+        <div class="title" @click="voidFn">{{titleText}}</div>
         <div>{{value}}</div>
         <div>{{value5}}</div>
     </div>
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent, getCurrentInstance } from 'vue'
+import { useRoute } from 'vue-router'
+
+export default defineComponent({
     setup() {
         // 1、Number 类型
         const value: number = 0
@@ -67,13 +70,17 @@ export default {
         }
         controlFlowAnalysisWithNever('1')
 
+		const route = useRoute()
+        const routeIndex: number = Number(route.name)
+        const titleText = getCurrentInstance()?.appContext.config.globalProperties.$titleArr[routeIndex - 1]
         return {
+            titleText,
             value,
             value5,
             voidFn,
         }
     },
-} 
+})
 </script>
 
 <style scoped>

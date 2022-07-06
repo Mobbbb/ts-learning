@@ -1,6 +1,6 @@
 <template>
     <div class="home-wrap mobile-wrap">
-        <div class="title">八、TypeScript 类</div>
+        <div class="title">{{titleText}}</div>
         <button @click="clickHandle">change</button>
         <div>{{name}}</div>
         <div>{{employee}}</div>
@@ -9,7 +9,8 @@
 </template>
 
 <script lang="ts">
-import { ref } from 'vue'
+import { getCurrentInstance, ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 export default {
     setup() {
@@ -131,7 +132,11 @@ export default {
             distance.value = son.move(Number(Math.random().toFixed(2)) * 100)
         }
 
+        const route = useRoute()
+        const routeIndex: number = Number(route.name)
+        const titleText = getCurrentInstance()?.appContext.config.globalProperties.$titleArr[routeIndex - 1]
         return {
+            titleText,
             name,
             employee,
             distance,

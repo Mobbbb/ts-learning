@@ -1,11 +1,13 @@
 <template>
     <div class="home-wrap mobile-wrap">
-        <div class="title">三、TypeScript 联合类型、类型别名</div>
+        <div class="title">{{titleText}}</div>
         <div>{{type}}</div>
     </div>
 </template>
 
 <script lang="ts">
+import { getCurrentInstance } from 'vue'
+import { useRoute } from 'vue-router'
 
 export default {
     setup() {
@@ -63,7 +65,11 @@ export default {
         type othersType2 = [string, number] // 其他类型
         type othersType3 = () => void // 其他类型
 
+        const route = useRoute()
+        const routeIndex: number = Number(route.name)
+        const titleText = getCurrentInstance()?.appContext.config.globalProperties.$titleArr[routeIndex - 1]
         return {
+            titleText,
             type,
         }
     },

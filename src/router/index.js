@@ -9,11 +9,28 @@ export const notFoundRoute = {
     component: () => import('@/single-page/not-found-page/index.vue')
 }
 
+export const titleArr = [
+    '一、TypeScript 基础类型',
+    '二、TypeScript 断言与守卫',
+    '三、TypeScript 联合类型',
+    '四、交叉类型',
+    '五、TypeScript 函数',
+    '六、TypeScript 接口',
+    '七、接口与类型别名的区别',
+    '八、TypeScript 类',
+    '九、TypeScript 泛型',
+    '十、泛型工具类型',
+    '十一、TypeScript 类装饰器',
+    '',
+]
 const array = Array.from(Array(11).keys(), (item, key) => {
     return {
         path: `/${key + 1}`,
         name: key + 1,
-        component: () => import(`@/single-page/${key + 1}.vue`)
+        component: () => import(`@/single-page/${key + 1}.vue`),
+        meta: {
+            title: titleArr[key]
+        },
     }
 })
 

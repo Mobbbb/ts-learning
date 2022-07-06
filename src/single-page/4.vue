@@ -1,12 +1,15 @@
 <template>
     <div class="home-wrap mobile-wrap">
-        <div class="title">四、交叉类型</div>
+        <div class="title">{{titleText}}</div>
         <div>{{point}}</div>
         <div>{{abc}}</div>
     </div>
 </template>
 
 <script lang="ts">
+import { getCurrentInstance } from 'vue'
+import { useRoute } from 'vue-router'
+
 export default {
     setup() {
         // 1、& 属性的合并
@@ -69,7 +72,11 @@ export default {
             }
         }*/
 
+        const route = useRoute()
+        const routeIndex: number = Number(route.name)
+        const titleText = getCurrentInstance()?.appContext.config.globalProperties.$titleArr[routeIndex - 1]
         return {
+            titleText,
             point,
             abc,
         }
