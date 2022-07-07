@@ -21,9 +21,9 @@ export const titleArr = [
     '九、TypeScript 泛型',
     '十、泛型工具类型',
     '十一、TypeScript 类装饰器',
-    '',
+    '十二、TypeScript 属性装饰器',
 ]
-const array = Array.from(Array(11).keys(), (item, key) => {
+const array = Array.from(Array(12).keys(), (item, key) => {
     return {
         path: `/${key + 1}`,
         name: key + 1,
