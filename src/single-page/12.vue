@@ -1,6 +1,7 @@
 <template>
     <div class="home-wrap mobile-wrap">
         <div class="title">{{titleText}}</div>
+        <div>{{obj}}</div>
     </div>
 </template>
 
@@ -10,6 +11,7 @@ import { useRoute } from 'vue-router'
 
 export default {
     setup() {
+        // 1、基础用法
         function logProperty(target: any, key: string) {
             delete target[key]
 
@@ -55,11 +57,42 @@ export default {
         const p = new Person('Mob')
         p.name = 'Bob'
 
+        // 2、属性装饰器传参
+        interface ObjJson {
+            [index: string]: string | number
+        }
+        const obj: ObjJson = {}
+        
+        const modelToJsonKey: (jsonKey: string) => Function = (jsonKey) => {
+            return (target: Object, key: string) => {
+                Object.defineProperty(target, key, {
+                    set: (value) => {
+                        obj[jsonKey] = value
+                    }
+                })
+            }
+        }
+
+        class Person2 {
+            @modelToJsonKey('name')
+            name: string
+            @modelToJsonKey('age')
+            age: number
+
+            constructor(name: string, age: number) {
+                this.name = name
+                this.age = age
+            }
+        }
+
+        const p2 = new Person2('寒冰', 18)
+
         const route = useRoute()
         const routeIndex: number = Number(route.name)
         const titleText = getCurrentInstance()?.appContext.config.globalProperties.$titleArr[routeIndex - 1]
         return {
             titleText,
+            obj,
         }
     },
 } 
