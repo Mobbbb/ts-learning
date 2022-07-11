@@ -38,7 +38,7 @@ export default {
         class HttpRequest {
             @get
             getAllData(request: Request) {
-                console.log(request)
+                console.log('1、基础用法 ', request)
             }
         }
 
@@ -57,9 +57,11 @@ export default {
                 descriptor: PropertyDescriptor,
             ) => {
                 const method = descriptor.value
-                (function () {
-                    method({ header: '这是请求头header', path: path, body: '请求内容' })
-                })()
+                {
+                    (function () {
+                        method({ header: '这是请求头header', path: path, body: '请求内容' })
+                    })()
+                }
             }
         }
 
@@ -70,21 +72,16 @@ export default {
         }
 
         class HttpRequest2 {
-            @get2("/getAll")
+            @get2('/getAll')
             getAllData(request?: Request2) {
                 console.log(request)
             }
 
-
-            @get2("/getList")
+            @get2('/getList')
             getList(request?: Request2) {
                 console.log(request)
             }
         }
-
-        const http2 = new HttpRequest2()
-        http2.getAllData()
-        http2.getList()
 
         const route = useRoute()
         const routeIndex: number = Number(route.name)
