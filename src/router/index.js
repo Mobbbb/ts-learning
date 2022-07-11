@@ -23,6 +23,7 @@ export const titleArr = [
     '十一、TypeScript 类装饰器',
     '十二、TypeScript 属性装饰器',
     '十三、TypeScript 方法装饰器',
+    '十四、TypeScript 参数装饰器',
 ]
 const array = Array.from(Array(titleArr.length).keys(), (item, key) => {
     return {
