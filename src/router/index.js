@@ -25,6 +25,7 @@ export const titleArr = [
     '十三、TypeScript 方法装饰器',
     '十四、TypeScript 参数装饰器',
     '十五、与Vue组合式API一起使用',
+    '十六、与Vue Options API一起使用',
 ]
 const array = Array.from(Array(titleArr.length).keys(), (item, key) => {
     return {
