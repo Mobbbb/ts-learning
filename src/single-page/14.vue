@@ -1,6 +1,36 @@
 <template>
     <div class="home-wrap mobile-wrap">
         <div class="title">{{titleText}}</div>
+
+<pre><code class="language-js">{{`// 代码示例
+<script lang="ts">
+import { getCurrentInstance } from 'vue'
+import { useRoute } from 'vue-router'
+
+export default {
+    setup() {
+        function Log(target: Function, key: string, parameterIndex: number) {
+            const functionLogged = key || target.prototype.constructor.name
+            console.log(\`The parameter in position \${parameterIndex} at \${functionLogged} has been decorated\`)
+        }
+
+        class Greeter {
+            greeting: string
+            constructor(@Log phrase: string) {
+                this.greeting = phrase
+            }
+        }
+
+        const route = useRoute()
+        const routeIndex: number = Number(route.name)
+        const titleText = getCurrentInstance()?.appContext.config.globalProperties.$titleArr[routeIndex - 1]
+        return {
+            titleText,
+        }
+    },
+} 
+</script>
+`}}</code></pre>
     </div>
 </template>
 
