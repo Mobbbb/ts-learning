@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router"
 import store from '@/store'
+import Prism from 'prismjs'
 
 export const notFoundRoute = {
     path: "/:pathMatch(.*)",
@@ -62,6 +63,9 @@ router.afterEach((to, from, failure) => {
         store.commit('app/updateInputValue', '')
         store.commit('app/updateSearchFlag', false)
     }
+    setTimeout(() => {
+        Prism.highlightAll() 
+    }, 50)
 })
 
 export default router
