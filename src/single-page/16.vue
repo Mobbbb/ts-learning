@@ -10,6 +10,12 @@
 <pre><code class="language-js">{{`// 代码示例
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
+// 第三方js库引用，增加声明
+// typings/prismjs.ts
+import Prism from 'prismjs'
+
+// quick fix
+// @ts-ignore
 
 declare module '@vue/runtime-core' {
     export interface ComponentCustomProperties {
@@ -88,7 +94,7 @@ export default defineComponent({
         },
     },
     mounted() {
-        
+        Prism.highlightAll()
     },
 })
 </script>
@@ -98,6 +104,12 @@ export default defineComponent({
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
+// 第三方js库引用，增加声明
+// typings/prismjs.ts
+import Prism from 'prismjs'
+
+// quick fix
+// @ts-ignore
 
 declare module '@vue/runtime-core' {
     export interface ComponentCustomProperties {
@@ -176,7 +188,7 @@ export default defineComponent({
         },
     },
     mounted() {
-        
+        Prism.highlightAll()
     },
 })
 </script>

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router"
+import { nextTick } from "vue"
 import store from '@/store'
 import Prism from 'prismjs'
 
@@ -63,9 +64,9 @@ router.afterEach((to, from, failure) => {
         store.commit('app/updateInputValue', '')
         store.commit('app/updateSearchFlag', false)
     }
-    setTimeout(() => {
+    nextTick(() => {
         Prism.highlightAll() 
-    }, 50)
+    })
 })
 
 export default router
