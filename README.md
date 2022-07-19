@@ -1,15 +1,6 @@
 # AMS
 
-## Project setup
+## 《了不起的 TypeScript》
 ```
-npm install
-```
-
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
+https://ts-learning.vercel.app
 ```
