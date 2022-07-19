@@ -1,6 +1,5 @@
 # AMS
 
 ## 《了不起的 TypeScript》
-```
-https://ts-learning.vercel.app
-```
+
+[代码预览](https://ts-learning.vercel.app)
